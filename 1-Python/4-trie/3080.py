@@ -12,8 +12,25 @@ TODO:
 
 
 def main() -> None:
-    # 구현하세요!
-    pass
+    MOD = 1_000_000_007
+    data = sys.stdin.read().split()
+    n = int(data[0])
+    names = data[1:1 + n]
+
+    trie: Trie[str] = Trie()
+    for name in names:
+        trie.push(name)
+
+    answer = 1
+    for node in trie:
+        k = len(node.children)
+        if k > 1:
+            fact = 1
+            for i in range(2, k + 1):
+                fact = fact * i % MOD
+            answer = answer * fact % MOD
+
+    print(answer)
 
 
 if __name__ == "__main__":

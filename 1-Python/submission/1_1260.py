@@ -7,42 +7,42 @@ from typing import DefaultDict, List
 
 """
 TODO:
-- __init__ êµ¬í˜„í•˜ê¸°
-- add_edge êµ¬í˜„í•˜ê¸°
-- dfs êµ¬í˜„í•˜ê¸° (ìž¬ê·€ ë˜ëŠ” ìŠ¤íƒ ë°©ì‹ ì„ íƒ)
-- bfs êµ¬í˜„í•˜ê¸°
+- __init__ ±¸ÇöÇÏ±â
+- add_edge ±¸ÇöÇÏ±â
+- dfs ±¸ÇöÇÏ±â (Àç±Í ¶Ç´Â ½ºÅÃ ¹æ½Ä ¼±ÅÃ)
+- bfs ±¸ÇöÇÏ±â
 """
 
 
 class Graph:
     def __init__(self, n: int) -> None:
         """
-        ê·¸ëž˜í”„ ì´ˆê¸°í™”
-        n: ì •ì ì˜ ê°œìˆ˜ (1ë²ˆë¶€í„° në²ˆê¹Œì§€)
+        ±×·¡ÇÁ ÃÊ±âÈ­
+        n: Á¤Á¡ÀÇ °³¼ö (1¹øºÎÅÍ n¹ø±îÁö)
         """
         self.n = n
         self.adj: list[list[int]] = [[] for _ in range(n+1)]
-        # êµ¬í˜„í•˜ì„¸ìš”!
+        # ±¸ÇöÇÏ¼¼¿ä!
 
     
     def add_edge(self, u: int, v: int) -> None:
         """
-        ì–‘ë°©í–¥ ê°„ì„  ì¶”ê°€
+        ¾ç¹æÇâ °£¼± Ãß°¡
         """
         self.adj[u].append(v)
         self.adj[v].append(u)
         self.adj[u].sort()
         self.adj[v].sort()
-        # êµ¬í˜„í•˜ì„¸ìš”!
+        # ±¸ÇöÇÏ¼¼¿ä!
         pass
     
     def dfs(self, start: int) -> list[int]:
         """
-        ê¹Šì´ ìš°ì„  íƒìƒ‰ (DFS)
+        ±íÀÌ ¿ì¼± Å½»ö (DFS)
         
-        êµ¬í˜„ ë°©ë²• ì„ íƒ:
-        1. ìž¬ê·€ ë°©ì‹: í•¨ìˆ˜ ë‚´ë¶€ì—ì„œ ìž¬ê·€ í•¨ìˆ˜ ì •ì˜í•˜ì—¬ êµ¬í˜„
-        2. ìŠ¤íƒ ë°©ì‹: ëª…ì‹œì  ìŠ¤íƒì„ ì‚¬ìš©í•˜ì—¬ ë°˜ë³µë¬¸ìœ¼ë¡œ êµ¬í˜„
+        ±¸Çö ¹æ¹ý ¼±ÅÃ:
+        1. Àç±Í ¹æ½Ä: ÇÔ¼ö ³»ºÎ¿¡¼­ Àç±Í ÇÔ¼ö Á¤ÀÇÇÏ¿© ±¸Çö
+        2. ½ºÅÃ ¹æ½Ä: ¸í½ÃÀû ½ºÅÃÀ» »ç¿ëÇÏ¿© ¹Ýº¹¹®À¸·Î ±¸Çö
         """
         visited = [False] * (self.n + 1)
         result: list[int] = []
@@ -54,19 +54,19 @@ class Graph:
                 continue
             visited[node] = True
             result.append(node)
-            # ìž‘ì€ ë²ˆí˜¸ê°€ ë¨¼ì € popë˜ë„ë¡ ì—­ìˆœìœ¼ë¡œ push
+            # ÀÛÀº ¹øÈ£°¡ ¸ÕÀú popµÇµµ·Ï ¿ª¼øÀ¸·Î push
             for nxt in reversed(self.adj[node]):
                 if not visited[nxt]:
                     stack.append(nxt)
 
         return result
-        # êµ¬í˜„í•˜ì„¸ìš”!
+        # ±¸ÇöÇÏ¼¼¿ä!
         pass
     
     def bfs(self, start: int) -> list[int]:
         """
-        ë„ˆë¹„ ìš°ì„  íƒìƒ‰ (BFS)
-        íë¥¼ ì‚¬ìš©í•˜ì—¬ êµ¬í˜„
+        ³Êºñ ¿ì¼± Å½»ö (BFS)
+        Å¥¸¦ »ç¿ëÇÏ¿© ±¸Çö
         """
         visited = [False] * (self.n + 1)
         result: list[int] = []
@@ -82,15 +82,45 @@ class Graph:
                     queue.append(nxt)
 
         return result
-        # êµ¬í˜„í•˜ì„¸ìš”!
+        # ±¸ÇöÇÏ¼¼¿ä!
         pass
     
     def search_and_print(self, start: int) -> None:
         """
-        DFSì™€ BFS ê²°ê³¼ë¥¼ ì¶œë ¥
+        DFS¿Í BFS °á°ú¸¦ Ãâ·Â
         """
         dfs_result = self.dfs(start)
         bfs_result = self.bfs(start)
         
         print(' '.join(map(str, dfs_result)))
         print(' '.join(map(str, bfs_result)))
+
+
+
+from typing import Callable
+import sys
+
+
+"""
+-¾Æ¹«°Íµµ ¼öÁ¤ÇÏÁö ¸¶¼¼¿ä!
+"""
+
+
+def main() -> None:
+    intify: Callable[[str], list[int]] = lambda l: [*map(int, l.split())]
+
+    lines: list[str] = sys.stdin.readlines()
+
+    N, M, V = intify(lines[0])
+    
+    graph = Graph(N)  # ±×·¡ÇÁ »ý¼º
+    
+    for i in range(1, M + 1): # °£¼± Á¤º¸ ÀÔ·Â
+        u, v = intify(lines[i])
+        graph.add_edge(u, v)
+    
+    graph.search_and_print(V) # DFS¿Í BFS ¼öÇà ¹× Ãâ·Â
+
+
+if __name__ == "__main__":
+    main()

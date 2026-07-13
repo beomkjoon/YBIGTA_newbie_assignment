@@ -4,9 +4,9 @@ import copy
 
 """
 TODO:
-- __setitem__ êµ¬í˜„í•˜ê¸°
-- __pow__ êµ¬í˜„í•˜ê¸° (__matmul__ì„ í™œìš©í•´ë´…ì‹œë‹¤)
-- __repr__ êµ¬í˜„í•˜ê¸°
+- __setitem__ ±¸ÇöÇÏ±â
+- __pow__ ±¸ÇöÇÏ±â (__matmul__À» È°¿ëÇØº¾½Ã´Ù)
+- __repr__ ±¸ÇöÇÏ±â
 """
 
 
@@ -87,3 +87,31 @@ class Matrix:
 
     def __repr__(self) -> str:
         return "\n".join(" ".join(map(str, row)) for row in self.matrix)
+
+
+
+from typing import Callable
+import sys
+
+
+"""
+-¾Æ¹«°Íµµ ¼öÁ¤ÇÏÁö ¸¶¼¼¿ä!
+"""
+
+
+def main() -> None:
+    intify: Callable[[str], list[int]] = lambda l: [*map(int, l.split())]
+
+    lines: list[str] = sys.stdin.readlines()
+
+    N, B = intify(lines[0])
+    matrix: list[list[int]] = [*map(intify, lines[1:])]
+
+    Matrix.MOD = 1000
+    modmat = Matrix(matrix)
+
+    print(modmat ** B)
+
+
+if __name__ == "__main__":
+    main()
